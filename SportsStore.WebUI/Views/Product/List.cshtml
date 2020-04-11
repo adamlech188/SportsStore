@@ -1,0 +1,16 @@
+﻿@model SportsStore.WebUI.Models.ProductsListViewModel
+
+@{
+    ViewData["Title"] = "Products";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+@foreach (var p in Model.Products)
+{
+     @await Html.PartialAsync("_ProductSummary", p)
+  
+}
+<div>
+    @Html.PageLinks(Model.PagegingInfo, x => Url.Action("List", new { page = x} ))
+</div>
