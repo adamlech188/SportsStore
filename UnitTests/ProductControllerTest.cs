@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using SportsStore.Domain.Abstract;
+using SportsStore.Domain.Concrete;
 using SportsStore.Domain.Entities;
 using SportsStore.WebUI.Controllers;
 using SportsStore.WebUI.HtmlHelpers;
@@ -33,13 +34,32 @@ namespace UnitTests
             IProductRepository productRepository = mock.Object;
             ProductController controller = new ProductController(productRepository);
             controller.PageSize = 3;
-            IEnumerable<Product> result = ((ProductsListViewModel)controller.List(2).Model).Products;
+            IEnumerable<Product> result = ((ProductsListViewModel)controller.List(null,2).Model).Products;
             Product[] prodArray = result.ToArray();
             Assert.IsTrue(prodArray.Length == 2);
-            Assert.AreEqual(prodArray[0].Name, "Blah4");
-            Assert.AreEqual(prodArray[1].Name, "Blah5");
+            Assert.AreEqual( "Blah4", prodArray[0].Name);
+            Assert.AreEqual("Blah5", prodArray[1].Name);
         }
 
+        [TestMethod]
+        public void Can_Filter_Products() {
+            Mock<IProductRepository> mock = new Mock<IProductRepository>();
+            mock.Setup(m => m.ProductsByCategory("Cat1")).Returns(new List<Product>
+            {
+                new Product {ProductID =1 ,  Name = "P1", Category = new Category{ CategoryId=1, Name= "Cat1"} },
+                new Product {ProductID =1 ,  Name = "P4", Category = new Category{ CategoryId=1, Name= "Cat1"} }
+               
+            });
+
+
+            ProductController controller = new ProductController(mock.Object);
+            controller.PageSize = 3;
+            IEnumerable<Product> result = ((ProductsListViewModel)controller.List("Cat1", 1).Model).Products;
+            Product[] prodArray = result.ToArray();
+            Assert.AreEqual(2, prodArray.Length, "Lenght of product list is not 2");
+            Assert.AreEqual("Cat1", prodArray[0].Category.Name);
+            Assert.AreEqual("P1", prodArray[0].Name);
+        }
         [TestMethod]
         public void Can_Generate_Page_Links()
         {

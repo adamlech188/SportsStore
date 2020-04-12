@@ -2,6 +2,7 @@
 using SportsStore.Domain.Entities;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace SportsStore.Domain.Concrete
@@ -12,6 +13,11 @@ namespace SportsStore.Domain.Concrete
         public IEnumerable<Product> Products
         {
             get { return dbContext.Products; }
+        }
+
+        public IEnumerable<Product> ProductsByCategory(string category)
+        {
+            return dbContext.Products.Where( p => p.Category.Name.StartsWith(category));
         }
     }
 }

@@ -22,11 +22,21 @@ namespace SportsStore.WebUI.Controllers
             return $"Hello From product! {_productRepository.Products.ElementAt(0).Name}";
         }
 
-        public ViewResult List(int page = 1)
+        public ViewResult List(string category, int page = 1)
         {
-            IEnumerable<Product> products = _productRepository.Products
-            .OrderBy(p => p.ProductID).Skip((page - 1) * PageSize).Take(PageSize);
-            int productCount = _productRepository.Products.Count();
+            IEnumerable<Product> products;
+            int productCount;
+            if (category == null) {
+                products = _productRepository.Products;
+                productCount = products.Count();
+            }
+            else {
+                products = _productRepository.ProductsByCategory(category);
+                productCount = products.Count();
+            }
+
+            products = products.OrderBy(p => p.ProductID).Skip((page - 1) * PageSize).Take(PageSize);
+       
             PagingInfo pageInfo = new PagingInfo {
                 CurrentPage = page,
                 ItemsPerPage = PageSize,
@@ -35,7 +45,8 @@ namespace SportsStore.WebUI.Controllers
             ProductsListViewModel model = new ProductsListViewModel
             {
                 Products = products,
-                PagegingInfo = pageInfo
+                PagegingInfo = pageInfo,
+                CurrentCategory = new Category { Name = category }
             };
             return View(model);
         }

@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices.ComTypes;
 using System.Security.Policy;
 using System.Threading.Tasks;
 using Castle.Core.Configuration;
@@ -19,9 +20,10 @@ namespace SportsStore.WebUI
 {
     public class Startup
     {
-        private readonly Microsoft.Extensions.Configuration.IConfiguration Configuration; 
+        private readonly Microsoft.Extensions.Configuration.IConfiguration Configuration;
 
-        public Startup(Microsoft.Extensions.Configuration.IConfiguration configuration) {
+        public Startup(Microsoft.Extensions.Configuration.IConfiguration configuration)
+        {
             Configuration = configuration;
         }
         // This method gets called by the runtime. Use this method to add services to the container.
@@ -30,7 +32,7 @@ namespace SportsStore.WebUI
         {
             services.AddControllersWithViews();
             services.AddSingleton<IProductRepository, EFProductRepository>();
-         
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -58,11 +60,31 @@ namespace SportsStore.WebUI
                 app.UseEndpoints(endpoints =>
                 {
                     endpoints.MapControllerRoute(
+                        name: null,
+                        pattern: "",
+                        defaults: new { controller = "Product", action = "List", category = (string)null, page = 1 }
+                    );
+                    endpoints.MapControllerRoute(
                       name: null,
                       pattern: "Page{page}",
-                      defaults: new { controller = "Product", action = "List"}
+                      defaults: new { controller = "Product", action = "List", category = (string)null }, new { page = @"\d+" }
 
-                    ) ;
+                    );
+                    endpoints.MapControllerRoute(
+                        name: null,
+                        pattern: "{page}",
+                        defaults: new { controller = "Product", action = "List", category = (string)null }, new { page = @"\d+" }
+                    );
+                    endpoints.MapControllerRoute(
+                       name: null,
+                       pattern: "{category}",
+                       defaults: new { controller = "Product", action = "List", page=1 }
+                    );
+                    endpoints.MapControllerRoute(
+                        name: null,
+                        pattern: "{category}/Page{page}",
+                        defaults: new { controller = "Product", action = "List"}, new { page = @"\d+"}
+                    );
                     endpoints.MapControllerRoute(
                         name: "default",
                         pattern: "{controller=Product}/{action=List}/{id?}");
