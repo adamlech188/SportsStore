@@ -15,6 +15,10 @@ namespace SportsStore.Domain.Concrete
             get { return dbContext.Products; }
         }
 
+        public IEnumerable<Category> Categories  {
+            get { return dbContext.Category; }
+        }
+
         public IEnumerable<Product> ProductsByCategory(string category)
         {
             return dbContext.Products.Where( p => p.Category.Name.StartsWith(category));

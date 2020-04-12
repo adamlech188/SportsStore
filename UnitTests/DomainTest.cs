@@ -18,6 +18,14 @@ namespace UnitTests
 
             }
         }
+        [TestMethod]
+        public void Test_Categories() {
+            using (var context = new SportsStoreContext())
+            {
+                DbSet<Category> categories = context.Category;
+                Assert.AreEqual(3, categories.Count(), "Number of categores wasn't 3");
+            }
+        }
 
     }
 }

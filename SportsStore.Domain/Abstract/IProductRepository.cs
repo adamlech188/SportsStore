@@ -9,6 +9,8 @@ namespace SportsStore.Domain.Abstract
     {
         public IEnumerable<Product> Products { get; }
 
+        public IEnumerable<Category> Categories { get; }
+
         public IEnumerable<Product> ProductsByCategory(string categoery);
     }
 }
