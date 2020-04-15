@@ -78,5 +78,22 @@ namespace UnitTests
             Assert.AreEqual(html, result.ToString());
 
         }
+
+        [TestMethod]
+        public void Selected_Category_Test()
+        {
+            Mock<IProductRepository> mock = new Mock<IProductRepository>();
+            mock.Setup(m => m.Products).Returns(new Product[] {
+                new Product { ProductID = 1, Name = "P1", Category = new Category { CategoryId = 1, Name = "Apples"} },
+                  new Product { ProductID = 2, Name = "P2", Category = new Category { CategoryId = 2, Name = "Oranges"} }
+            });
+
+            ProductController target = new ProductController(mock.Object);
+            string categoryToSelect = "Apples";
+            target.List(categoryToSelect);
+            string result = target.ViewBag.Selected;
+
+            Assert.AreEqual(categoryToSelect, result, "The result is not apples");
+        }
     }
 }

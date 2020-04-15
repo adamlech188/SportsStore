@@ -26,6 +26,7 @@ namespace SportsStore.WebUI.Controllers
         {
             IEnumerable<Product> products;
             int productCount;
+            ViewBag.Selected = category;
             if (category == null) {
                 products = _productRepository.Products;
                 productCount = products.Count();

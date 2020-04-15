@@ -14,9 +14,9 @@ namespace SportsStore.WebUI.Controllers
         public NavViewComponent (IProductRepository productRepository) {
             _productRepository = productRepository;
         }
-        public IViewComponentResult Invoke(string category = null)
+        public IViewComponentResult Invoke()
         {
-            ViewBag.Selected = category;
+           
             IEnumerable<string> categories = _productRepository.Categories.Select(c => c.Name).Distinct().OrderBy(c => c);
             return View("Menu",categories);
         }
