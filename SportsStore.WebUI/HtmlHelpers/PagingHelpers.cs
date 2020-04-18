@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc.ViewFeatures;
-using SportsStore.WebUI.Models;
+using SportsStore.WebUI.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;

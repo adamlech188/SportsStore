@@ -7,7 +7,7 @@ using SportsStore.Domain.Concrete;
 using SportsStore.Domain.Entities;
 using SportsStore.WebUI.Controllers;
 using SportsStore.WebUI.HtmlHelpers;
-using SportsStore.WebUI.Models;
+using SportsStore.WebUI.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;

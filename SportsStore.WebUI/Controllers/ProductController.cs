@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using SportsStore.Domain.Abstract;
 using SportsStore.Domain.Entities;
-using SportsStore.WebUI.Models;
+using SportsStore.WebUI.ViewModels;
 
 namespace SportsStore.WebUI.Controllers
 {

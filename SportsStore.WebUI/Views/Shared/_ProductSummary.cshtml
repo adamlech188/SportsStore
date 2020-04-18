@@ -1,9 +1,16 @@
 ﻿@model SportsStore.Domain.Entities.Product
 
-<div class="card card-body bg-light">
-    <h3>
-        <strong>@Model.Name</strong>
-        <span class="float-right col-form-label">@Model.Price.ToString("c")</span>
-    </h3>
-    <span class="lead">@Model.Description</span>
-</div>
+    <div class="card card-body bg-light">
+        <h3>
+            <strong>@Model.Name</strong>
+            <span class="btn btn-primary float-right col-form-label">@Model.Price.ToString("c")</span>
+        </h3>
+        @using (Html.BeginForm("AddToCart", "Cart"))
+        {
+            @Html.HiddenFor(x => x.ProductID)
+            @Html.Hidden("returnUrl", Context.Request.Path)
+            <input type="submit" class="btn btn-success float-right" value="Add to Cart" />
+        }
+
+        <span class="lead">@Model.Description</span>
+    </div>
