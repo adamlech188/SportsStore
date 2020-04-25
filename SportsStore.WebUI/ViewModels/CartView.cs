@@ -1,4 +1,6 @@
-﻿using SportsStore.Domain.Entities;
+﻿using Microsoft.AspNetCore.Mvc;
+using SportsStore.Domain.Entities;
+using SportsStore.WebUI.Binders;
 using SportsStore.WebUI.ViewModels;
 using System;
 using System.Collections.Generic;
@@ -7,6 +9,7 @@ using System.Text;
 
 namespace SportsStore.WebUI.ViewModels
 {
+    [ModelBinder(BinderType = typeof(CartModelBinder))]
     public class CartView
     {
         private List<CartLine> lineCollection = new List<CartLine>();
@@ -37,7 +40,7 @@ namespace SportsStore.WebUI.ViewModels
             }
             else
             {
-                line.Quantity = quantity;
+                line.Quantity += quantity;
             }
         }
 

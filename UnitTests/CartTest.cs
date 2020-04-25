@@ -30,8 +30,8 @@ namespace UnitTests
 
             // Assert
             Assert.AreEqual(results.Length, 2);
-            Assert.AreEqual(results[0].Product, p1);
-            Assert.AreEqual(results[1].Product, p2);
+            Assert.AreEqual(results[0].Product.Name, p1.Name  );
+            Assert.AreEqual(results[1].Product.Name, p2.Name);
         }
 
         [TestMethod]
@@ -53,8 +53,8 @@ namespace UnitTests
 
             // Assert
             Assert.AreEqual(results.Length, 2);
-            Assert.AreEqual(results[0].Quantity, 11);
-            Assert.AreEqual(results[1].Quantity, 1);
+            Assert.AreEqual( 12, results[0].Quantity);
+            Assert.AreEqual(1, results[1].Quantity );
         }
 
         [TestMethod]
@@ -100,7 +100,7 @@ namespace UnitTests
             decimal result = target.ComputeTotalValue();
 
             // Assert
-            Assert.AreEqual(result, 450M);
+            Assert.AreEqual( 450M, result);
         }
 
         [TestMethod]

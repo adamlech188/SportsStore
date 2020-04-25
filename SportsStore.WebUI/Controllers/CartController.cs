@@ -21,53 +21,46 @@ namespace SportsStore.WebUI.Controllers
             _repository = repository;
         }
 
-        public ViewResult Index(string returnUrl)
+        public ViewResult Index(CartView cart, string returnUrl)
         {
             var viewModel = new CartIndexViewModel {
-                Cart = GetCart(), 
+                Cart = cart, 
                 ReturnUrl = returnUrl
             };
             return View(viewModel);
         }
 
 
-        public RedirectToRouteResult AddToCart(int productId, string returnUrl) {
+        public RedirectToRouteResult AddToCart(CartView cart, int productId, string returnUrl) {
 
             Product product = _repository.Products.FirstOrDefault(p => p.ProductID == productId);
             if (product != null) {
-                AddItemToSession(product, 1);
+                AddItemToSession(cart, product, 1);
             }
             return RedirectToRoute("Cart", new { returnUrl = returnUrl});
         }
 
-        public RedirectToRouteResult RemoveFromCart(int productId, string returnUrl)
+        public RedirectToRouteResult RemoveFromCart(CartView cart, int productId, string returnUrl)
         {
 
             Product product = _repository.Products.FirstOrDefault(p => p.ProductID == productId);
             if (product != null)
             {
-                GetCart().RemoveLine(product);
+                cart.RemoveLine(product);
             }
             return RedirectToRoute("Cart", new { returnUrl });
         }
 
-        private void AddItemToSession(Product product, int quantity)
+        private void AddItemToSession(CartView cart, Product product, int quantity)
         {
-            var cartView = GetCart();
+            var sessionObject =  HttpContext.Session.GetString("Cart");
+            if (sessionObject == null) {
+                HttpContext.Session.SetString("Cart", JsonConvert.SerializeObject(cart));
+            }
+            var cartView = JsonConvert.DeserializeObject<CartView>(HttpContext.Session.GetString("Cart"));
             cartView.AddItem(product, quantity);
             HttpContext.Session.SetString("Cart", JsonConvert.SerializeObject(cartView));
         }
-        private CartView GetCart()
-        {
-            var sessionObject = HttpContext.Session.GetString("Cart");
-            if (sessionObject != null)
-            {
-                return JsonConvert.DeserializeObject<CartView>(sessionObject);
-            }
-            else
-            {
-                return new CartView();
-            }
-        }
+
     }
 }
