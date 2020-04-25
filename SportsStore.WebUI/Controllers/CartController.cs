@@ -46,11 +46,14 @@ namespace SportsStore.WebUI.Controllers
             Product product = _repository.Products.FirstOrDefault(p => p.ProductID == productId);
             if (product != null)
             {
-                cart.RemoveLine(product);
+                RemoveItemToSession(cart, product);
             }
             return RedirectToRoute("Cart", new { returnUrl });
         }
 
+        public PartialViewResult SummaryCart(CartView cart) {
+            return PartialView(cart);
+        }
         private void AddItemToSession(CartView cart, Product product, int quantity)
         {
             var sessionObject =  HttpContext.Session.GetString("Cart");
@@ -62,5 +65,11 @@ namespace SportsStore.WebUI.Controllers
             HttpContext.Session.SetString("Cart", JsonConvert.SerializeObject(cartView));
         }
 
+
+        private void RemoveItemToSession(CartView cart, Product product)
+        {
+            cart.RemoveLine(product);
+            HttpContext.Session.SetString("Cart", JsonConvert.SerializeObject(cart));
+        }
     }
 }

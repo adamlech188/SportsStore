@@ -27,18 +27,21 @@ namespace SportsStore.WebUI.Controllers
             IEnumerable<Product> products;
             int productCount;
             ViewBag.Selected = category;
-            if (category == null) {
+            if (category == null)
+            {
                 products = _productRepository.Products;
                 productCount = products.Count();
             }
-            else {
+            else
+            {
                 products = _productRepository.ProductsByCategory(category);
                 productCount = products.Count();
             }
 
             products = products.OrderBy(p => p.ProductID).Skip((page - 1) * PageSize).Take(PageSize);
-       
-            PagingInfo pageInfo = new PagingInfo {
+
+            PagingInfo pageInfo = new PagingInfo
+            {
                 CurrentPage = page,
                 ItemsPerPage = PageSize,
                 TotalItems = productCount
@@ -51,5 +54,6 @@ namespace SportsStore.WebUI.Controllers
             };
             return View(model);
         }
+
     }
 }
