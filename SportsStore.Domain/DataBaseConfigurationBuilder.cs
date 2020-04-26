@@ -10,7 +10,7 @@ namespace SportsStore.Domain
     {
         public static IConfiguration GetConfiguration() {
             ConfigurationBuilder builder = new ConfigurationBuilder();
-            builder.AddJsonFile("appsettings.json");
+            builder.AddJsonFile("db-settings.json");
             return builder.Build();
         }
     }

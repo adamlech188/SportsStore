@@ -13,6 +13,9 @@ namespace SportsStore.Domain
         public DbSet<Product> Products { get; set; }
 
         public DbSet<Category> Category { get; set; }
+
+        public DbSet<ShippingDetails> ShippingDetails { get; set; }
+
         public SportsStoreContext()
         {
             Configuration = DataBaseConfigurationBuilder.GetConfiguration();
@@ -22,7 +25,7 @@ namespace SportsStore.Domain
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
 
-            
+
             if (!optionsBuilder.IsConfigured)
             {
                 optionsBuilder.UseNpgsql(Configuration.GetConnectionString("SportsStoreConnection"));
@@ -32,6 +35,9 @@ namespace SportsStore.Domain
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Product>().HasOne(p => p.Category).WithMany(c => c.Products).HasForeignKey(p => p.CategoryId);
+            modelBuilder.Entity<ProductShippingDetails>().HasKey( ps => new { ps.ProductID, ps.ShippingDetailsID});
+            modelBuilder.Entity<ProductShippingDetails>().HasOne(ps => ps.Product).WithMany(p => p.ProductShippingDetails);
+            modelBuilder.Entity<ProductShippingDetails>().HasOne(ps => ps.ShippingDetails).WithMany(s => s.ProductShippingDetails);
 
             modelBuilder.Entity<Category>().HasData(
                  new Category

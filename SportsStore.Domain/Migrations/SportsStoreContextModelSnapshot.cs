@@ -150,11 +150,80 @@ namespace SportsStore.Domain.Migrations
                         });
                 });
 
+            modelBuilder.Entity("SportsStore.Domain.Entities.ProductShippingDetails", b =>
+                {
+                    b.Property<int>("ProductID")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("ShippingDetailsID")
+                        .HasColumnType("integer");
+
+                    b.HasKey("ProductID", "ShippingDetailsID");
+
+                    b.HasIndex("ShippingDetailsID");
+
+                    b.ToTable("ProductShippingDetails");
+                });
+
+            modelBuilder.Entity("SportsStore.Domain.Entities.ShippingDetails", b =>
+                {
+                    b.Property<int>("ShippingDetailsID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
+
+                    b.Property<string>("City")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Country")
+                        .HasColumnType("text");
+
+                    b.Property<bool>("GiftWrap")
+                        .HasColumnType("boolean");
+
+                    b.Property<string>("Line1")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Line2")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Line3")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("text");
+
+                    b.Property<string>("State")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Zip")
+                        .HasColumnType("text");
+
+                    b.HasKey("ShippingDetailsID");
+
+                    b.ToTable("ShippingDetails");
+                });
+
             modelBuilder.Entity("SportsStore.Domain.Entities.Product", b =>
                 {
                     b.HasOne("SportsStore.Domain.Entities.Category", "Category")
                         .WithMany("Products")
                         .HasForeignKey("CategoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("SportsStore.Domain.Entities.ProductShippingDetails", b =>
+                {
+                    b.HasOne("SportsStore.Domain.Entities.Product", "Product")
+                        .WithMany("ProductShippingDetails")
+                        .HasForeignKey("ProductID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("SportsStore.Domain.Entities.ShippingDetails", "ShippingDetails")
+                        .WithMany("ProductShippingDetails")
+                        .HasForeignKey("ShippingDetailsID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

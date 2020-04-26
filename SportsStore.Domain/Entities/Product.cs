@@ -14,5 +14,8 @@ namespace SportsStore.Domain.Entities
         [JsonIgnore]
         public Category Category { get; set; }
         public int CategoryId { get; set; }
+
+        public List<ProductShippingDetails> ProductShippingDetails {get;set; }
+
     }
 }
