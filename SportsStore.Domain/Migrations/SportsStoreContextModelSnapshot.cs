@@ -187,9 +187,6 @@ namespace SportsStore.Domain.Migrations
                     b.Property<string>("Line2")
                         .HasColumnType("text");
 
-                    b.Property<string>("Line3")
-                        .HasColumnType("text");
-
                     b.Property<string>("Name")
                         .HasColumnType("text");
 
