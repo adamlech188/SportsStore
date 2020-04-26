@@ -50,9 +50,9 @@ namespace SportsStore.WebUI.Controllers
             }
             return RedirectToRoute("Cart", new { returnUrl });
         }
-
-        public PartialViewResult SummaryCart(CartView cart) {
-            return PartialView(cart);
+    
+        public ViewResult Checkout() {
+            return View(new ShippingDetailsView() { Line1 = "1780 Tate Rd",Name = "Adam"});
         }
         private void AddItemToSession(CartView cart, Product product, int quantity)
         {
