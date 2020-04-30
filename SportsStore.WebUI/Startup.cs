@@ -16,6 +16,8 @@ using SportsStore.Domain.Abstract;
 using SportsStore.Domain.Concrete;
 using SportsStore.Domain.Entities;
 using SportsStore.WebUI.Controllers;
+using SportsStore.WebUI.Service;
+using SportsStore.WebUI.ServiceImplementation;
 
 namespace SportsStore.WebUI
 {
@@ -33,6 +35,11 @@ namespace SportsStore.WebUI
         {
             services.AddControllersWithViews();
             services.AddSingleton<IProductRepository, EFProductRepository>();
+            EmailSettings emailSettings = new EmailSettings
+            {
+                WriteAsFile = bool.Parse(Configuration.GetSection("Email").GetSection("WriteAsFile").Value)
+            };
+            services.AddSingleton<IOrderProcessor>( sp => new EmailOrderProcessor(emailSettings));
             services.AddSession(options =>
             {
                 options.IdleTimeout = TimeSpan.FromSeconds(10);
