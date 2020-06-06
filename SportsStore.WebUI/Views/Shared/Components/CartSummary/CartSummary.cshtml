@@ -5,9 +5,9 @@
     <a class="text-left  d-block" href="#" style="padding-left: 0;text-align:left">STORE</a>
 </div>
 
-<ul class="navbar-nav col-sm-8 justify-content-between" >
+<ul class="navbar-nav col-sm-7  justify-content-between" >
     <li class="nav-item">
-        <b class="d-none">Your cart:</b>
+        <b class="d-none d-sm-inline-block">Your cart:</b>
         @Model.Lines.Sum(x => x.Quantity) item(s)
         @Model.ComputeTotalValue().ToString("c")
     </li>
