@@ -1,11 +1,25 @@
 ﻿@model IEnumerable<string>
+@{
+    bool isHorizontal = ViewBag.isHorizontal;
+    string wrapperClass = isHorizontal ? "btn-group btn-group-sm" : "";
+    string wrapperStyle = isHorizontal ? "width: 100%" : "";
+}
+<div class='@wrapperClass' style="width:100%">
+    @{string homeClass = isHorizontal ? "btn btn-secondary btn-sm" : "btn btn-block btn-secondary btn-lg"; }
+    @Html.ActionLink("Home", "List", "Product", null, new { @class = @homeClass })
+    @foreach (var link in Model)
+    {
+        string linkClass = isHorizontal ? "btn " + (link == ViewBag.Selected ? "btn-primary" : "btn-secondary") + " btn-sm"
+        : "btn btn-block " + (link == ViewBag.Selected ? "btn-primary" : "btn-secondary") + " btn-lg";
 
-@Html.ActionLink("Home", "List", "Product", null, new { @class = "btn btn-block btn-secondary btn-lg" })
-@foreach (var link in Model)
-{
-    @Html.RouteLink(link, new { controller = "Product",
-    action = "List",
-    category = link, page = 1 },
-    new { @class = "btn btn-block "  + (link == ViewBag.Selected ? "btn-primary": "btn-secondary") + " btn-lg"})
+        @Html.RouteLink(link, new
+        {
+            controller = "Product",
+            action = "List",
+            category = link,
+            page = 1
+        },
+        new { @class = linkClass })
 
     }
+</div>

@@ -14,10 +14,11 @@ namespace SportsStore.WebUI.Controllers
         public NavViewComponent (IProductRepository productRepository) {
             _productRepository = productRepository;
         }
-        public IViewComponentResult Invoke()
+        public IViewComponentResult Invoke(bool isHorizontal)
         {
            
             IEnumerable<string> categories = _productRepository.Categories.Select(c => c.Name).Distinct().OrderBy(c => c);
+            ViewBag.isHorizontal = isHorizontal;
             return View("Menu",categories);
         }
     }

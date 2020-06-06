@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - Sports Store</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/lib/open-iconic-master/font/css/open-iconic-bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" />
     <link rel="stylesheet" href="~/css/ErrorStyles.css" />
 </head>
@@ -13,12 +14,16 @@
         <nav class="navbar navbar-expand">
             @await Component.InvokeAsync("CartSummary")
         </nav>
-    </header>
-    <div class="row" >
-        <div id="categories" class="col-md-2">
-            @await Component.InvokeAsync("Nav")
+    </header>       
+    <div class="d-sm-none d-block" >
+        @await Component.InvokeAsync("Nav", new { isHorizontal = true })
+    </div>
+    <div class="row">
+        <div id="categories" class="d-none d-sm-block">
+            @await Component.InvokeAsync("Nav", new { isHorizontal = false })
         </div>
-        <div role="main" class="col-md-8" >
+
+        <div role="main" class="col-md-8">
             @RenderBody()
         </div>
     </div>
